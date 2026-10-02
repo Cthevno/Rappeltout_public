@@ -1,0 +1,81 @@
+services:
+  postgresql:
+    container_name: postgresql
+    image: postgres:18-alpine3.24
+    env_file:
+      - .env
+    networks:
+      - transcendence
+    # ports:
+    #   - 5432:5432
+    volumes:
+      - postgresql_data:/var/lib/postgresql
+    healthcheck:
+      # Check if the database is accepting connections.
+      test: ["CMD-SHELL", "pg_isready -d ${POSTGRES_DB} -U ${POSTGRES_USER}"]
+      start_period: 30s
+      start_interval: 1s
+      interval: 15s
+      timeout: 1s
+      retries: 3
+
+  sveltekit:
+    container_name: sveltekit
+    image: sveltekit
+    build:
+      context: sveltekit/
+      dockerfile: Dockerfile
+      target: runner
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB}?schema=public
+      - PORT=3000
+      - HOST=0.0.0.0
+      - ORIGIN=https://localhost:8443
+    networks:
+      - transcendence
+    depends_on:
+      postgresql:
+        condition: service_healthy
+        restart: true
+    command: sh -c "node node_modules/prisma/build/index.js migrate deploy --schema=./prisma/schema.prisma && npx prisma db seed && npx tsx server.ts"
+    healthcheck:
+      # Check if the app is running.
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://127.0.0.1:3000/api/health || exit 1"]
+      start_period: 30s
+      start_interval: 1s
+      interval: 15s
+      timeout: 1s
+      retries: 3
+
+  nginx:
+    container_name: nginx
+    image: nginx_transcendence
+    build:
+      context: nginx/
+      dockerfile: Dockerfile
+    networks:
+      - transcendence
+    ports:
+      - 8080:80
+      - 8443:443
+    depends_on:
+      sveltekit:
+        condition: service_healthy
+        restart: true
+    healthcheck:
+      # Check that nginx is serving
+      test: ["CMD-SHELL", "curl --silent --head --fail --insecure https://localhost/api/health"]
+      start_period: 30s
+      start_interval: 1s
+      interval: 15s
+      timeout: 1s
+      retries: 3
+
+volumes:
+  postgresql_data:
+
+networks:
+  transcendence:
+    driver: bridge

@@ -1,0 +1,12 @@
+.svelte-kit
+build
+node_modules
+.vscode
+.env
+docs
+*.pdf
+db-access.md
+coverage
+.DS_Store
+sveltekit/src/doxygen-main.md
+

@@ -1,0 +1,320 @@
+@import "tailwindcss";
+
+@theme {
+    --color-background: #F0E6BB;
+    --color-background-header: #2F1A0C;
+    --color-background-red: #790017;
+    --color-background-icon: #C7A94D;
+    --color-background-icon-todo: #DDD0AA;
+    --color-background-xp: #F0E2BC;
+    --color-text-form: #7A6B4E;
+    --color-grey: #756860;
+    --color-beige: #F8EFD7;
+    --color-red: #790017;
+	--color-dull-gold: #C4A352;
+
+    --color-dashboard-active: #790017;
+
+    --font-serif: "Inknut Antiqua", serif;
+
+    /* Authentication colors - always Parchemin */
+    --color-auth-background: #F0E6BB;
+    --color-auth-red: #790017;
+    --color-border-auth: #5E4328;
+    --color-btn-color-auth: #F2E2C4;
+    --color-btn-hover: #FB5656;
+    --color-btn-return: #FFF5E0;
+    --color-text-already: #B71C1C;
+    --color-text-hover-already: #8B0000;
+
+    /* Monster colors */
+    --color-dark-beige: #DDD0AA;
+    --color-dark-golden: #B07D2A;
+    --color-golden: #C4A353;
+
+    /* Settings colors */
+    --color-settings-text: #6B5C3E;
+    --color-settings-bg-email: #F2EFE4;
+    --color-settings-bg-save: #6E1A20;
+    --color-settings-bg-send: #DDD0AA;
+    --color-settings-bg-hover-send: #E3D5AF;
+    --color-settings-border: #C4A352;
+    --color-settings-bg-check: #F0FAF0;
+    --color-settings-border-check: #4A9A4A;
+    --color-settings-text-check: #2C6E2E;
+    --color-settings-bg-card: #F7EDD8;
+
+    /* About colors */
+    --color-about-bg-header: #331C0D;
+}
+
+/*
+ * ============================================================
+ * Parchemin theme
+ * ============================================================
+ */
+
+:root,
+:root[data-theme="parchment"] {
+    --color-background: #F0E6BB;
+    --color-background-header: #2F1A0C;
+    --color-background-red: #790017;
+    --color-background-icon: #C7A94D;
+    --color-background-icon-todo: #DDD0AA;
+    --color-background-xp: #F0E2BC;
+    --color-text-form: #7A6B4E;
+    --color-grey: #756860;
+    --color-beige: #F8EFD7;
+    --color-red: #790017;
+
+    --color-dashboard-active: #790017;
+
+    /* Monster colors */
+    --color-dark-beige: #DDD0AA;
+    --color-dark-golden: #B07D2A;
+    --color-golden: #C4A353;
+
+    /* Settings colors */
+    --color-settings-text: #6B5C3E;
+    --color-settings-bg-email: #F2EFE4;
+    --color-settings-bg-save: #6E1A20;
+    --color-settings-bg-send: #DDD0AA;
+    --color-settings-bg-hover-send: #E3D5AF;
+    --color-settings-border: #C4A352;
+    --color-settings-bg-check: #F0FAF0;
+    --color-settings-border-check: #4A9A4A;
+    --color-settings-text-check: #2C6E2E;
+    --color-settings-bg-card: #F7EDD8;
+
+    /* About colors */
+    --color-about-bg-header: #331C0D;
+}
+
+/*
+ * ============================================================
+ * Gryffondor theme
+ * ============================================================
+ */
+
+:root[data-theme="gryffindor"] {
+    --color-background: #F8E8E4;
+    --color-background-header: #650F18;
+    --color-background-red: #8F1728;
+    --color-background-icon: #C99434;
+    --color-background-icon-todo: #EAD0C8;
+    --color-background-xp: #F5DED4;
+    --color-text-form: #70483F;
+    --color-grey: #705953;
+    --color-beige: #FFF3E8;
+    --color-red: #9B1829;
+
+    --color-dashboard-active: #8f1728;
+
+    /* Monster colors */
+    --color-dark-beige: #E2C6BC;
+    --color-dark-golden: #A96F1D;
+    --color-golden: #D0A23F;
+
+    /* Settings colors */
+    --color-settings-text: #6D302F;
+    --color-settings-bg-email: #FAE9E1;
+    --color-settings-bg-save: #801724;
+    --color-settings-bg-send: #EAD0C8;
+    --color-settings-bg-hover-send: #F0DCD4;
+    --color-settings-border: #C99434;
+    --color-settings-bg-check: #FFF1ED;
+    --color-settings-border-check: #8F1728;
+    --color-settings-text-check: #650F18;
+    --color-settings-bg-card: #FAE9E1;
+
+    /* About colors */
+    --color-about-bg-header: #790017;
+}
+
+/*
+ * ============================================================
+ * Serpentard theme
+ * ============================================================
+ */
+
+:root[data-theme="slytherin"] {
+    --color-background: #E5EFE2;
+    --color-background-header: #0B3D24;
+    --color-background-red: #17653B;
+    --color-background-icon: #6C9A70;
+    --color-background-icon-todo: #CBDCC8;
+    --color-background-xp: #DCE9D8;
+    --color-text-form: #4E6955;
+    --color-grey: #52685A;
+    --color-beige: #F1F7ED;
+    --color-red: #17653B;
+
+    --color-dashboard-active: #17653b;
+
+    /* Monster colors */
+    --color-dark-beige: #C7D8C4;
+    --color-dark-golden: #637E61;
+    --color-golden: #8CAB82;
+
+    /* Settings colors */
+    --color-settings-text: #355942;
+    --color-settings-bg-email: #EAF3E7;
+    --color-settings-bg-save: #17653B;
+    --color-settings-bg-send: #CBDCC8;
+    --color-settings-bg-hover-send: #D9E6D6;
+    --color-settings-border: #6C9A70;
+    --color-settings-bg-check: #EDF7EA;
+    --color-settings-border-check: #17653B;
+    --color-settings-text-check: #0B3D24;
+    --color-settings-bg-card: #EAF3E7;
+
+    /* About colors */
+    --color-about-bg-header: #0B3D24;
+}
+
+/*
+ * ============================================================
+ * Serdaigle theme
+ * ============================================================
+ */
+
+:root[data-theme="ravenclaw"] {
+    --color-background: #E5EBF5;
+    --color-background-header: #132C56;
+    --color-background-red: #244B84;
+    --color-background-icon: #8B7548;
+    --color-background-icon-todo: #CCD5E5;
+    --color-background-xp: #DCE3EF;
+    --color-text-form: #52627D;
+    --color-grey: #58647A;
+    --color-beige: #F1F4FA;
+    --color-red: #244B84;
+
+    --color-dashboard-active: #244b84;
+
+    /* Monster colors */
+    --color-dark-beige: #C8D1DF;
+    --color-dark-golden: #716445;
+    --color-golden: #9F8C5B;
+
+    /* Settings colors */
+    --color-settings-text: #364D70;
+    --color-settings-bg-email: #E9EDF5;
+    --color-settings-bg-save: #244B84;
+    --color-settings-bg-send: #CCD5E5;
+    --color-settings-bg-hover-send: #DBE2ED;
+    --color-settings-border: #7288AA;
+    --color-settings-bg-check: #EEF3FB;
+    --color-settings-border-check: #244B84;
+    --color-settings-text-check: #132C56;
+    --color-settings-bg-card: #E9EDF5;
+
+    /* About colors */
+    --color-about-bg-header: #132C56;
+}
+
+/*
+ * ============================================================
+ * Poufsouffle theme
+ * ============================================================
+ */
+
+:root[data-theme="hufflepuff"] {
+    --color-background: #F6EFC8;
+    --color-background-header: #272313;
+    --color-background-red: #9B7D00;
+    --color-background-icon: #D2B500;
+    --color-background-icon-todo: #E4DBA7;
+    --color-background-xp: #EEE4AF;
+    --color-text-form: #6F6542;
+    --color-grey: #686148;
+    --color-beige: #FFF9D8;
+    --color-red: #9B7D00;
+
+    --color-dashboard-active: #272313;
+
+    /* Monster colors */
+    --color-dark-beige: #DED4A2;
+    --color-dark-golden: #967B11;
+    --color-golden: #C9AA18;
+
+    /* Settings colors */
+    --color-settings-text: #645928;
+    --color-settings-bg-email: #F8F0C7;
+    --color-settings-bg-save: #8B7100;
+    --color-settings-bg-send: #E4DBA7;
+    --color-settings-bg-hover-send: #EEE6BD;
+    --color-settings-border: #C2A720;
+    --color-settings-bg-check: #FFF9DD;
+    --color-settings-border-check: #9B7D00;
+    --color-settings-text-check: #6F5A00;
+    --color-settings-bg-card: #F8F0C7;
+
+    /* About colors */
+    --color-about-bg-header: #272313;
+}
+
+/*
+ * ============================================================
+ * Reusable authentication components
+ * ============================================================
+ */
+
+@layer components {
+    .auth-page-base {
+        @apply min-h-screen bg-auth-background flex flex-col items-center justify-between gap-5 text-center font-serif py-8;
+    }
+
+    .btn-auth {
+        @apply w-[300px] h-[56px] rounded-lg bg-btn-color-auth;
+    }
+
+    .btn-auth-police {
+        @apply font-serif text-[15px];
+    }
+
+    .btn-auth-border {
+        @apply border-2 border-border-auth;
+    }
+
+    .btn-auth-hover {
+        @apply hover:bg-btn-hover transition-colors cursor-pointer;
+    }
+
+    .btn-auth-info {
+        @apply px-[15px] flex items-center;
+    }
+
+    .btn-auth-center {
+        @apply justify-center flex items-center font-[203] leading-[36px] tracking-normal;
+    }
+
+    .msg-auth-error {
+        @apply text-auth-red font-serif text-[15px];
+    }
+
+	.title {
+		@apply text-xs font-semibold uppercase tracking-[0.25em] text-grey md:text-sm md:tracking-[0.35em];
+	}
+
+	.line {
+		@apply h-px flex-1 bg-background-icon min-w-8;
+	}
+}
+
+/*
+ * ============================================================
+ * Global page styles
+ * ============================================================
+ */
+
+html {
+    min-height: 100%;
+    background-color: var(--color-background);
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    background-color: var(--color-background);
+}

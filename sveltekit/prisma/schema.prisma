@@ -1,0 +1,320 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==========================================
+//         AUTHENTICATION SECTION
+// ==========================================
+
+model Session {
+  id      String   @id
+  userId  Int
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endedAt DateTime
+}
+
+model TwoFA {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  code      String
+  token     String   @unique
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PasswordReset {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int      @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime
+}
+
+// ==========================================
+//              USER/HOUSE SECTION
+// ==========================================
+
+enum Theme {
+  PARCHMENT
+  GRYFFINDOR
+  SLYTHERIN
+  RAVENCLAW
+  HUFFLEPUFF
+}
+
+enum Role {
+  HEADMASTER
+  TEACHER
+  STUDENT
+}
+
+enum NotificationType {
+  MONSTER
+  TASK
+  XP
+  CHALLENGE
+  INVITATION
+}
+
+model User {
+  id                   Int              @id @default(autoincrement())
+  email                String           @unique
+  username             String           @unique
+  password             String?
+  createdAt            DateTime         @default(now())
+  sessions             Session[]
+  tasks                Task[]
+  twoFA                TwoFA?
+  accountValidated     Boolean          @default(false)
+  passwordReset        PasswordReset?
+  housesCreated        House[]          @relation("HouseCreator")
+  housesJoined         House[]          @relation("HouseMembers")
+  housesPending        House[]          @relation("HousePending")
+  messages             Message[]
+  assignedTasks        SharedTask[]     @relation("SharedTaskAssignees")
+  theme                Theme            @default(PARCHMENT)
+  role                 Role             @default(STUDENT)
+  combatLogs           CombatLog[]
+  monsterLoots         MonsterLoot[]
+  avatar               String           @default("/avatars/hat.png")
+  totalXP              Int              @default(0)
+  sharedTasksCompleted Int              @default(0)
+  totalDmgDealt        Int              @default(0)
+  monstersSlayed       Int              @default(0)
+  taskCompletions      TaskCompletion[]
+  notifications        Notification[]
+}
+
+model House {
+  code      String   @id
+  houseName String
+  createdAt DateTime @default(now())
+
+  creatorId Int
+  creator   User @relation("HouseCreator", fields: [creatorId], references: [id])
+
+  members        User[] @relation("HouseMembers")
+  pendingMembers User[] @relation("HousePending")
+
+  invitations Invitation[]
+  messages    Message[]
+  sharedTasks SharedTask[]
+  monsters    Monster[]
+  combatLogs  CombatLog[]
+}
+
+// ==========================================
+//            INVITATION SECTION
+// ==========================================
+
+model Invitation {
+  id        Int      @id @default(autoincrement())
+  email     String
+  houseCode String
+  house     House    @relation(fields: [houseCode], references: [code], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([email, houseCode])
+}
+
+// ==========================================
+//              TASK SECTION
+// ==========================================
+
+enum Difficulty {
+  SUPER_EASY
+  EASY
+  MEDIUM
+  DIFFICULT
+}
+
+enum Category {
+  STUDIES
+  SPORT
+  ADMINISTRATIVE
+  HEALTH
+  PERSONAL
+  OTHER
+}
+
+model Task {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  nameTask String
+  isFinish Boolean @default(false)
+
+  createdAt         DateTime  @default(now())
+  endedAt           DateTime?
+  finishedAt        DateTime?
+  overdueNotifiedAt DateTime?
+}
+
+model SharedTask {
+  id Int @id @default(autoincrement())
+
+  houseCode String
+  house     House  @relation(fields: [houseCode], references: [code], onDelete: Cascade)
+
+  nameTask String
+  isFinish Boolean @default(false)
+
+  assignees User[] @relation("SharedTaskAssignees")
+
+  createdAt         DateTime         @default(now())
+  endedAt           DateTime?
+  finishedAt        DateTime?
+  overdueNotifiedAt DateTime?
+  difficulty        Difficulty
+  category          Category
+  combatLogs        CombatLog[]
+  completions       TaskCompletion[]
+}
+
+model TaskCompletion {
+  id Int @id @default(autoincrement())
+
+  sharedTaskId Int
+  sharedTask   SharedTask @relation(fields: [sharedTaskId], references: [id], onDelete: Cascade)
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  xpAwarded Int
+  createdAt DateTime @default(now())
+}
+
+// ==========================================
+//              CHAT SECTION
+// ==========================================
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  houseCode String
+  house     House  @relation(fields: [houseCode], references: [code], onDelete: Cascade)
+}
+
+// ==========================================
+//           NOTIFICATION SECTION
+// ==========================================
+
+model Notification {
+  id Int @id @default(autoincrement())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type      NotificationType
+  title     String
+  message   String
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+  href      String?
+}
+
+// ==========================================
+//            MONSTER SECTION
+// ==========================================
+
+enum MonsterStatus {
+  ACTIVE
+  NEXT
+  FINISHED
+}
+
+enum MonsterDifficulty {
+  EASY
+  MEDIUM
+  HARD
+  VERYHARD
+}
+
+enum LootType {
+  COLLECTIVE
+  INDIVIDUAL
+}
+
+model CombatLog {
+  id Int @id @default(autoincrement())
+
+  monsterId Int
+  monster   Monster @relation(fields: [monsterId], references: [id], onDelete: Cascade)
+
+  userId     Int?
+  user       User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  authorName String?
+
+  houseId String
+  house   House  @relation(fields: [houseId], references: [code], onDelete: Cascade)
+
+  sharedTaskId Int?
+  sharedTask   SharedTask? @relation(fields: [sharedTaskId], references: [id], onDelete: SetNull)
+
+  dmg       Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Monster {
+  id Int @id @default(autoincrement())
+
+  templateId Int
+  template   MonsterTemplate @relation(fields: [templateId], references: [id])
+
+  houseId   String
+  household House  @relation(fields: [houseId], references: [code], onDelete: Cascade)
+
+  difficulty MonsterDifficulty
+
+  maxHp     Int @default(100)
+  currentHp Int @default(100)
+
+  loot   String?
+  status MonsterStatus @default(ACTIVE)
+  killed Boolean
+
+  escapeDate   DateTime?
+  finishedDate DateTime?
+  createdAt    DateTime  @default(now())
+
+  combatLogs CombatLog[]
+
+  lootType       LootType @default(COLLECTIVE)
+  collectiveLoot String?
+
+  monsterLoots MonsterLoot[]
+}
+
+model MonsterTemplate {
+  id       Int    @id @default(autoincrement())
+  name     String @unique
+  imageSrc String
+  lore     String
+
+  monsters Monster[]
+}
+
+model MonsterLoot {
+  id      Int    @id @default(autoincrement())
+  content String
+
+  monsterId Int
+  monster   Monster @relation(fields: [monsterId], references: [id], onDelete: Cascade)
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

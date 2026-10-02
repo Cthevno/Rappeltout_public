@@ -1,0 +1,9 @@
+services:
+  sveltekit:
+    build:
+      target: dev
+    volumes:
+      - ./sveltekit:/app
+      - /app/node_modules
+    # La commande magique : elle applique la migration, génère le client, PUIS lance SvelteKit ouvert sur le réseau
+    command: sh -c "npm install && npx prisma migrate dev --name init --schema=./prisma/schema.prisma && npx prisma db seed && npm run dev -- --host 0.0.0.0 --port 3000"

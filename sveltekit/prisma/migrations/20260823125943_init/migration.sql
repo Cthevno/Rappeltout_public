@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "SharedTasksCompleted" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "avatar" TEXT NOT NULL DEFAULT '/avatars/hat.png',
+ADD COLUMN     "totalDmgDealt" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "totalXP" INTEGER NOT NULL DEFAULT 0;

@@ -1,0 +1,2 @@
+-- CreateEnum
+CREATE TYPE "Role" AS ENUM ('HEADMASTER', 'TEACHER', 'STUDENT');

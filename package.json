@@ -1,0 +1,14 @@
+{
+  "svelte": "^5.55.2",
+  "dependencies": {
+    "@iconify-svelte/mdi": "^1.0.2",
+    "cookies": "^0.9.1",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "@vitest/browser-playwright": "^4.1.10",
+    "vitest": "^4.1.10"
+  }
+}
